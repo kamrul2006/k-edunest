@@ -18,7 +18,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" foxified="">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -29,11 +29,3 @@ export default function RootLayout({ children }) {
 }
 
 
-
-// echo "# k-edunest" >> README.md
-// git init
-// git add.
-// git commit - m "App created"
-// git branch - M main
-// git remote add origin https://github.com/kamrul2006/k-edunest.git
-// git push - u origin main
