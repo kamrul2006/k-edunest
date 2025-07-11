@@ -8,10 +8,11 @@ import ReviewSection from '../components/home/ReviewSection'
 import { AboutUsSection } from '../components/home/AboutUsSection'
 import Navbar from '../components/Fixed/NavBar'
 import Footer from '../components/Fixed/Footer'
+import { NewsletterSection } from '../components/home/NewsletterSection'
 
 export const HomePageLayout = () => {
     return (
-        <div className='text-black'>
+        <div className='text-black bg-white'>
             <Navbar />
 
             <HeroSection />
@@ -27,6 +28,8 @@ export const HomePageLayout = () => {
             <ResearchPapers />
 
             <ReviewSection />
+
+            <NewsletterSection />
 
             <Footer />
         </div>

@@ -7,8 +7,8 @@ import { Slide } from 'react-awesome-reveal';
 
 export const AboutUsSection = () => {
     return (
-        <section className="relative bg-blue-700 text-pink-200 py-20 overflow-hidden">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 px-6 gap-10 items-center">
+        <section className="relative bg-blue-700 text-pink-200 py-20 overflow-hidden lg:mt-10">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 px-6 gap-10 items-center ">
 
                 {/* ---------- Text Section ---------- */}
                 <Slide direction="left" triggerOnce>

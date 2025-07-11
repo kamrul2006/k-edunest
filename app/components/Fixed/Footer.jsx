@@ -3,12 +3,12 @@ import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/f
 
 export default function Footer() {
     return (
-        <footer className="bg-gradient-to-r from-blue-950 via-indigo-900 to-blue-950 text-gray-200 px-4 py-10 mt-10">
+        <footer className="bg-gradient-to-r from-blue-950 via-indigo-900 to-blue-950 text-gray-200 px-4 py-10">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
                 {/* Brand */}
                 <div>
                     <h2 className="text-2xl font-bold text-white">
-                        <span className="text-cyan-400">K-</span>Edunest
+                        <span className="text-cyan-400">K-</span>EduNest
                     </h2>
                     <p className="mt-3 text-sm text-gray-400">
                         Unlock your future with the best college resources, admissions, and research insights.

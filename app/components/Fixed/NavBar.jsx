@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { auth } from '@/app/firebase/firebase.config';
@@ -9,9 +9,8 @@ import { auth } from '@/app/firebase/firebase.config';
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [user, setUser] = useState(null);
+    const pathname = usePathname();
     const router = useRouter();
-
-    console.log(user)
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -34,14 +33,14 @@ export default function Navbar() {
     ];
 
     return (
-        <nav className="bg-gradient-to-r from-blue-900 via-indigo-800 to-blue-700 text-white shadow-xl fixed top-0 w-full z-50">
+        <nav className="fixed top-0 w-full z-50 backdrop-blur-md bg-blue-900/60 text-white shadow-xl">
             <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
                 {/* Logo */}
                 <Link
                     href="/"
                     className="text-3xl font-extrabold tracking-widest text-white hover:text-cyan-300 transition-all duration-300"
                 >
-                    <span className="text-cyan-400">K-</span>Edunest
+                    <span className="text-cyan-400">K-</span>EduNest
                 </Link>
 
                 {/* Desktop Nav */}
@@ -50,7 +49,10 @@ export default function Navbar() {
                         <Link
                             key={link.name}
                             href={link.href}
-                            className="text-sm font-semibold uppercase hover:text-cyan-300 transition duration-300"
+                            className={`text-sm font-semibold uppercase transition duration-300 ${pathname === link.href
+                                ? 'text-cyan-300 underline underline-offset-4'
+                                : 'hover:text-cyan-300'
+                                }`}
                         >
                             {link.name}
                         </Link>
@@ -94,13 +96,16 @@ export default function Navbar() {
 
             {/* Mobile Nav */}
             {isOpen && (
-                <div className="md:hidden bg-blue-800 px-6 py-4 space-y-3">
+                <div className="md:hidden bg-blue-900/80 backdrop-blur-lg px-6 py-4 space-y-3">
                     {navLinks.map((link) => (
                         <Link
                             key={link.name}
                             href={link.href}
                             onClick={() => setIsOpen(false)}
-                            className="block text-sm font-semibold uppercase hover:text-cyan-300 transition duration-300"
+                            className={`block text-sm font-semibold uppercase transition duration-300 ${pathname === link.href
+                                ? 'text-cyan-300 underline underline-offset-4'
+                                : 'hover:text-cyan-300'
+                                }`}
                         >
                             {link.name}
                         </Link>
