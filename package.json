@@ -14,8 +14,9 @@
     "autoprefixer": "^10.4.21",
     "axios": "^1.9.0",
     "firebase": "^11.10.0",
+    "firebase-admin": "^13.4.0",
+    "firebase-functions": "^6.3.2",
     "framer-motion": "^12.17.0",
-    "next": "15.3.3",
     "nodemailer": "^6.10.1",
     "postcss": "^8.5.4",
     "react": "^19.0.0",
@@ -31,6 +32,7 @@
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.3.5",
+    "next": "^15.3.5",
     "tailwindcss": "^4"
   }
 }
