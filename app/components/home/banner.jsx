@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function HeroSection() {
     return (
-        <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white min-h-[90vh] flex items-center justify-center px-6 md:px-16">
+        <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white min-h-[90vh] flex items-center justify-center px-6 md:px-16 lg:min-h-screen">
             <div className="absolute inset-0">
                 <Image
                     src="/banbg.jpg"
