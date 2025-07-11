@@ -1,21 +1,33 @@
 'use client';
 
-
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { auth } from "../firebase/firebase.config.js";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/firebase.config";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 export default function Register() {
     const router = useRouter();
-    const [form, setForm] = useState({ email: "", password: "" });
+    const [form, setForm] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        photoURL: "",
+    });
     const [error, setError] = useState("");
 
     const handleRegister = async (e) => {
         e.preventDefault();
         setError("");
+
         try {
-            await createUserWithEmailAndPassword(auth, form.email, form.password);
+            const { user } = await createUserWithEmailAndPassword(auth, form.email, form.password);
+
+            await updateProfile(user, {
+                displayName: `${form.firstName} ${form.lastName}`,
+                photoURL: form.photoURL,
+            });
+
             router.push("/");
         } catch (err) {
             setError(err.message);
@@ -23,33 +35,85 @@ export default function Register() {
     };
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-            <form onSubmit={handleRegister} className="bg-white p-6 rounded shadow-md w-80 space-y-4">
-                <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
-                <input
-                    type="email"
-                    placeholder="Email"
-                    className="w-full px-3 py-2 border rounded"
-                    value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    required
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    className="w-full px-3 py-2 border rounded"
-                    value={form.password}
-                    onChange={(e) => setForm({ ...form, password: e.target.value })}
-                    required
-                />
-                <button
-                    type="submit"
-                    className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-                >
-                    Register
-                </button>
-                {error && <p className="text-red-500 text-sm">{error}</p>}
-            </form>
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-cyan-900 via-blue-900 to-indigo-900 px-4 py-12">
+            <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8 space-y-6">
+                <div className="text-center">
+                    <h1 className="text-3xl font-extrabold text-blue-900">Create Account</h1>
+                    <p className="mt-2 text-sm text-gray-500">
+                        Join K-Edunest to discover and connect with top colleges.
+                    </p>
+                </div>
+
+                {error && (
+                    <div className="bg-red-100 text-red-600 px-4 py-2 rounded text-sm shadow-sm">
+                        {error}
+                    </div>
+                )}
+
+                <form onSubmit={handleRegister} className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                        <input
+                            type="text"
+                            placeholder="First Name"
+                            className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
+                            value={form.firstName}
+                            onChange={(e) => setForm({ ...form, firstName: e.target.value })}
+                            required
+                        />
+                        <input
+                            type="text"
+                            placeholder="Last Name"
+                            className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
+                            value={form.lastName}
+                            onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+                            required
+                        />
+                    </div>
+
+                    <input
+                        type="email"
+                        placeholder="Email Address"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
+                        value={form.email}
+                        onChange={(e) => setForm({ ...form, email: e.target.value })}
+                        required
+                    />
+
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
+                        value={form.password}
+                        onChange={(e) => setForm({ ...form, password: e.target.value })}
+                        required
+                    />
+
+                    <input
+                        type="url"
+                        placeholder="Profile Image URL (optional)"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
+                        value={form.photoURL}
+                        onChange={(e) => setForm({ ...form, photoURL: e.target.value })}
+                    />
+
+                    <button
+                        type="submit"
+                        className="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg transition duration-300 shadow-md"
+                    >
+                        Register
+                    </button>
+                </form>
+
+                <p className="text-sm text-center text-gray-600">
+                    Already have an account?{' '}
+                    <span
+                        className="text-blue-600 hover:underline font-medium cursor-pointer"
+                        onClick={() => router.push('/login')}
+                    >
+                        Sign in
+                    </span>
+                </p>
+            </div>
         </div>
     );
 }

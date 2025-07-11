@@ -1,6 +1,8 @@
 import React from 'react'
 import HeroSection from '../components/home/banner'
 import CollegeSearchSection from '../components/home/CollegeSearchSection'
+import FeaturedColleges from '../components/home/FeaturedColleges'
+import CollegeGallery from '../components/home/CollegeGallery'
 
 export const HomePageLayout = () => {
     return (
@@ -8,6 +10,10 @@ export const HomePageLayout = () => {
             <HeroSection />
 
             <CollegeSearchSection />
+
+            <CollegeGallery />
+
+            <FeaturedColleges />
 
         </div>
     )
