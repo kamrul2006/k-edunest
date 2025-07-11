@@ -3,6 +3,8 @@ import HeroSection from '../components/home/banner'
 import CollegeSearchSection from '../components/home/CollegeSearchSection'
 import FeaturedColleges from '../components/home/FeaturedColleges'
 import CollegeGallery from '../components/home/CollegeGallery'
+import ResearchPapers from '../components/home/ResearchPapers'
+import ReviewSection from '../components/home/ReviewSection'
 
 export const HomePageLayout = () => {
     return (
@@ -15,6 +17,9 @@ export const HomePageLayout = () => {
 
             <FeaturedColleges />
 
+            <ResearchPapers />
+
+            <ReviewSection />
         </div>
     )
 }
