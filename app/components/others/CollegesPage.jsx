@@ -24,7 +24,7 @@ export default function CollegesPage() {
 
     if (loading) {
         return (
-            <div className="text-center mt-20 text-xl font-semibold text-gray-600">
+            <div className="text-center mt-20 text-xl font-semibold text-gray-600 min-h-screen">
                 Loading colleges...
             </div>
         );

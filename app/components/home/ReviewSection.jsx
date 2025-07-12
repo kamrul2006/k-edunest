@@ -1,42 +1,33 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Fade, Slide } from 'react-awesome-reveal';
 import { FaStar } from 'react-icons/fa';
 
 const ReviewSection = () => {
-    const [reviews, setReviews] = useState([
-        {
-            id: 1,
-            name: 'Ayesha Rahman',
-            college: 'Dhaka University',
-            review: 'Great campus and excellent research environment!',
-            rating: 5,
-        },
-        {
-            id: 2,
-            name: 'Tanvir Hossain',
-            college: 'BUET',
-            review: 'Professors are supportive and the labs are well-equipped.',
-            rating: 4,
-        },
-        {
-            id: 3,
-            name: 'Farzana Akter',
-            college: 'NSU',
-            review: 'Loved the campus life and events.',
-            rating: 4.5,
-        },
-    ]);
-
+    const [reviews, setReviews] = useState([]);
     const [formData, setFormData] = useState({
         name: '',
         college: '',
         review: '',
         rating: 0,
     });
-
     const [hoverRating, setHoverRating] = useState(0);
+
+    // ✅ Fetch all reviews from backend
+    useEffect(() => {
+        const fetchReviews = async () => {
+            try {
+                const res = await axios.get('http://localhost:5000/review');
+                setReviews(res.data || []);
+            } catch (err) {
+                console.error('Failed to load reviews:', err);
+            }
+        };
+
+        fetchReviews();
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -46,20 +37,30 @@ const ReviewSection = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const { name, college, review, rating } = formData;
         if (!name || !college || !review || rating === 0) return;
 
-        setReviews((prev) => [
-            ...prev,
-            {
-                ...formData,
-                id: prev.length + 1,
-            },
-        ]);
-        setFormData({ name: '', college: '', review: '', rating: 0 });
-        setHoverRating(0);
+        try {
+            // ✅ Send review to backend
+            await axios.post('http://localhost:5000/review', {
+                name,
+                college,
+                reviewText: review,
+                rating,
+            });
+
+            // ✅ Refetch reviews after submission
+            const res = await axios.get('http://localhost:5000/review');
+            setReviews(res.data || []);
+
+            // ✅ Reset form
+            setFormData({ name: '', college: '', review: '', rating: 0 });
+            setHoverRating(0);
+        } catch (err) {
+            console.error('Error submitting review:', err);
+        }
     };
 
     return (
@@ -152,12 +153,12 @@ const ReviewSection = () => {
                 {/* Reviews */}
                 <Slide direction="up" triggerOnce>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {reviews.map((review) => (
+                        {reviews.map((review, index) => (
                             <div
-                                key={review.id}
+                                key={index}
                                 className="bg-white border border-blue-100 p-6 rounded-2xl shadow hover:shadow-lg transition-shadow duration-300"
                             >
-                                <h3 className="text-xl font-semibold text-gray-800">{review.name}</h3>
+                                <h3 className="text-xl font-semibold text-gray-800">{review.name || review.userEmail}</h3>
                                 <p className="text-sm text-gray-500 mb-2 italic">{review.college}</p>
                                 <div className="flex items-center text-yellow-500 mb-3">
                                     {Array.from({ length: Math.floor(review.rating) }).map((_, i) => (
@@ -165,7 +166,7 @@ const ReviewSection = () => {
                                     ))}
                                     {review.rating % 1 !== 0 && <FaStar className="opacity-50" />}
                                 </div>
-                                <p className="text-gray-700 text-sm leading-relaxed">“{review.review}”</p>
+                                <p className="text-gray-700 text-sm leading-relaxed">“{review.reviewText || review.review}”</p>
                             </div>
                         ))}
                     </div>
