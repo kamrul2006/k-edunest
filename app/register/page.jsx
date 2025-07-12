@@ -3,7 +3,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth } from "../firebase/firebase.config";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+    createUserWithEmailAndPassword,
+    updateProfile,
+    GoogleAuthProvider,
+    signInWithPopup,
+} from "firebase/auth";
 
 export default function Register() {
     const router = useRouter();
@@ -16,6 +21,7 @@ export default function Register() {
     });
     const [error, setError] = useState("");
 
+    // Email/password registration handler
     const handleRegister = async (e) => {
         e.preventDefault();
         setError("");
@@ -26,6 +32,50 @@ export default function Register() {
             await updateProfile(user, {
                 displayName: `${form.firstName} ${form.lastName}`,
                 photoURL: form.photoURL,
+            });
+
+            // Send user to backend
+            const newUser = {
+                name: `${form.firstName} ${form.lastName}`,
+                email: form.email,
+                photoURL: form.photoURL,
+                provider: "email",
+            };
+
+            await fetch("http://localhost:5000/Users", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(newUser),
+            });
+
+            router.push("/");
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
+    // Google login handler
+    const handleGoogleLogin = async () => {
+        setError("");
+        const provider = new GoogleAuthProvider();
+
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+
+            console.log(user)
+
+            const newUser = {
+                name: user.displayName,
+                email: user.email,
+                photoURL: user.photoURL,
+                provider: "google",
+            };
+
+            await fetch("http://localhost:5000/Users", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(newUser),
             });
 
             router.push("/");
@@ -103,6 +153,22 @@ export default function Register() {
                         Register
                     </button>
                 </form>
+
+                {/* Google Login */}
+                <div className="text-center">
+                    <p className="text-gray-500 my-2">or</p>
+                    <button
+                        onClick={handleGoogleLogin}
+                        className="w-full flex items-center justify-center gap-3 border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-200"
+                    >
+                        <img
+                            src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                            alt="Google"
+                            className="w-5 h-5"
+                        />
+                        <span>Sign in with Google</span>
+                    </button>
+                </div>
 
                 <p className="text-sm text-center text-gray-600">
                     Already have an account?{' '}
