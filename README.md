@@ -153,8 +153,8 @@ This project is open source and available under the [MIT License](LICENSE).
 ## 📬 Contact
 
 **Kamrul Islam Apurba**
-📧 Email: [kamrul@example.com](mailto:kamrul@example.com)
-🌐 GitHub: [@K-WEB TEc](https://github.com/K-WEB-TEc)
+📧 Email: [kamrulislamapurba@gmail.com](mailto:kamrulislamapurba@gmail.com)
+🌐 GitHub: [@K-WEB TEc](https://github.com/k-web-tech)
 
 ---
 
