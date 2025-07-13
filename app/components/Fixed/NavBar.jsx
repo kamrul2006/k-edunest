@@ -33,14 +33,18 @@ export default function Navbar() {
     ];
 
     return (
-        <nav className="fixed top-0 w-full z-50 backdrop-blur-md bg-blue-900/60 text-white shadow-xl">
+        <nav className="fixed top-0 w-full z-50 backdrop-blur-md bg-blue-900/70 text-white shadow-xl">
             <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
                 {/* Logo */}
-                <Link
-                    href="/"
-                    className="text-3xl font-extrabold tracking-widest text-white hover:text-cyan-300 transition-all duration-300"
-                >
-                    <span className="text-cyan-400">K-</span>EduNest
+                <Link href="/" className="flex items-center gap-2 hover:scale-105 transition-all duration-300">
+                    <img
+                        src="/llgg.png"
+                        alt="Logo"
+                        className="lg:w-10 w-7 h-7 lg:h-10  rounded-full shadow-md "
+                    />
+                    <span className="text-2xl md:text-3xl font-extrabold tracking-wide hover:text-cyan-300 transition hidden md:block">
+                        <span className="text-cyan-400">K-</span>EduNest
+                    </span>
                 </Link>
 
                 {/* Desktop Nav */}
@@ -49,12 +53,13 @@ export default function Navbar() {
                         <Link
                             key={link.name}
                             href={link.href}
-                            className={`text-sm font-semibold uppercase transition duration-300 ${pathname === link.href
-                                ? 'text-cyan-300 underline underline-offset-4'
+                            className={`relative group text-sm font-semibold uppercase transition duration-300 ${pathname === link.href
+                                ? 'text-cyan-300'
                                 : 'hover:text-cyan-300'
                                 }`}
                         >
                             {link.name}
+                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-300 transition-all duration-300 group-hover:w-full"></span>
                         </Link>
                     ))}
                 </div>
@@ -65,13 +70,13 @@ export default function Navbar() {
                         <>
                             <button
                                 onClick={() => router.push('/profile')}
-                                className="bg-cyan-500 hover:bg-cyan-400 text-white px-4 py-1.5 rounded-md text-sm font-semibold shadow-md"
+                                className="bg-cyan-500 hover:bg-cyan-400 text-white px-4 py-1.5 rounded-md text-sm font-semibold shadow-md transform hover:scale-105 transition"
                             >
                                 {user.displayName || 'Profile'}
                             </button>
                             <button
                                 onClick={handleLogout}
-                                className="text-sm px-3 py-1 border border-cyan-400 rounded hover:bg-cyan-400 hover:text-white transition"
+                                className="text-sm px-3 py-1 border border-cyan-400 rounded hover:bg-cyan-400 hover:text-white transform hover:scale-105 transition"
                             >
                                 Logout
                             </button>
@@ -79,7 +84,7 @@ export default function Navbar() {
                     ) : (
                         <Link
                             href="/login"
-                            className="bg-cyan-500 hover:bg-cyan-400 text-white px-4 py-1.5 rounded-md text-sm font-semibold shadow-md"
+                            className="bg-cyan-500 hover:bg-cyan-400 text-white px-4 py-1.5 rounded-md text-sm font-semibold shadow-md transform hover:scale-105 transition"
                         >
                             Login
                         </Link>
@@ -88,15 +93,15 @@ export default function Navbar() {
 
                 {/* Mobile Toggle */}
                 <div className="md:hidden">
-                    <button onClick={() => setIsOpen(!isOpen)}>
-                        {isOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
+                    <button onClick={() => setIsOpen(!isOpen)} className="hover:text-cyan-300 transition">
+                        {isOpen ? <FaTimes size={18} /> : <FaBars size={18} />}
                     </button>
                 </div>
             </div>
 
             {/* Mobile Nav */}
             {isOpen && (
-                <div className="md:hidden bg-blue-900/80 backdrop-blur-lg px-6 py-4 space-y-3">
+                <div className="md:hidden bg-blue-900/90 backdrop-blur-lg px-6 py-4 space-y-4 transition-all duration-300 ease-in-out">
                     {navLinks.map((link) => (
                         <Link
                             key={link.name}
@@ -119,13 +124,13 @@ export default function Navbar() {
                                     setIsOpen(false);
                                     router.push('/profile');
                                 }}
-                                className="block w-full text-left bg-cyan-500 hover:bg-cyan-400 text-white px-4 py-2 rounded-md font-medium"
+                                className="block w-full text-left bg-cyan-500 hover:bg-cyan-400 text-white px-4 py-2 rounded-md font-medium transform hover:scale-105 transition"
                             >
                                 {user.displayName || 'Profile'}
                             </button>
                             <button
                                 onClick={handleLogout}
-                                className="block w-full text-left bg-red-500 hover:bg-red-400 text-white px-4 py-2 rounded-md font-medium"
+                                className="block w-full text-left bg-red-500 hover:bg-red-400 text-white px-4 py-2 rounded-md font-medium transform hover:scale-105 transition"
                             >
                                 Logout
                             </button>
@@ -134,7 +139,7 @@ export default function Navbar() {
                         <Link
                             href="/login"
                             onClick={() => setIsOpen(false)}
-                            className="block mt-2 bg-cyan-500 hover:bg-cyan-400 text-white px-4 py-2 rounded-md text-center font-medium"
+                            className="block mt-2 bg-cyan-500 hover:bg-cyan-400 text-white px-4 py-2 rounded-md text-center font-medium transform hover:scale-105 transition"
                         >
                             Login
                         </Link>

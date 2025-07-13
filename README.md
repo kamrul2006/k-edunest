@@ -1,139 +1,163 @@
 
-# K-Blogify
+# 📚 K-EduNest
 
-A full-stack blogging platform built using **Next.js 15**, **Express.js**, **MongoDB**, and deployed on **Vercel**.  
-This project allows users to create, read, and manage blog posts with full authentication support.
+![Banner](public/banner-preview.png)
 
----
-
-## 🚀 Features
-
-- 🔐 User Authentication (NextAuth.js)
-- 📝 Create, Read, Delete Blog Posts
-- 🎯 Personal Dashboard (View/Delete own posts)
-- 🌐 Public Posts Page (Read others' posts)
-- 🖼 SweetAlert2 modals for beautiful UI
-- 🎨 Fully Responsive UI using TailwindCSS
-- 🌑 Dark themed design
-- 🖥 Deployment ready (Frontend: Vercel, Backend: Railway/Render)
+> Your all-in-one educational portal for exploring colleges, managing admissions, and tracking personal academic records.
 
 ---
 
-## 🛠 Tech Stack
+## 🌐 Live Preview
 
-| Frontend  | Backend  | Database  |
-|-----------|----------|-----------|
-| Next.js 15 (App Router) | Express.js (Node.js) | MongoDB |
-| TailwindCSS | REST API | Mongo Atlas |
-| NextAuth.js |  |  |
+🔗 [Visit K-EduNest](https://kedunest.vercel.app)
 
 ---
 
-## 🌍 Live Demo
+## 🧠 Overview
 
-Frontend (Vercel): [https://k-blogify.vercel.app](https://k-blogify.vercel.app)  
+**K-EduNest** is a modern web app for students to:
+- Explore colleges
+- Apply for admissions
+- Track their applied colleges
+- View and update profile info
+
+Built using **Next.js, Firebase Auth, Tailwind CSS, and MongoDB**, the platform ensures a smooth, secure, and mobile-friendly experience.
 
 ---
 
-## 🔧 Installation (Local Development)
+## 🛠️ Tech Stack
 
-### Clone the Repository
+| Technology    | Description                           |
+|---------------|---------------------------------------|
+| **Next.js**   | App router with SSR and CSR           |
+| **TailwindCSS** | Utility-first styling                |
+| **Firebase**  | Authentication (GitHub login)         |
+| **MongoDB**   | Backend database for storing users, colleges, and admissions |
+| **Express.js**| REST API handling                     |
+| **React Hook Form** | Form management                |
+| **SweetAlert2** | For modals and alerts               |
+| **React Icons** | Icon library for UI elements       |
+
+---
+
+## ✨ Features
+
+- 🔐 **Authentication with Firebase (GitHub Login)**
+- 🏫 **College Listings** with details
+- 📝 **Admission Form** for each college
+- 🧑‍🎓 **My College** view (track your applications)
+- 👤 **User Profile** (view and update info)
+- 📱 **Fully Responsive UI**
+- 🌙 **Dark Glassy Navbar Design**
+- 🎉 **Animated Elements using `react-awesome-reveal`**
+- 📎 **Firebase email verification status display**
+- ✅ **Protected Routes** for certain features
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/kamrul2006/K-Blogify-Next.js.git
-cd K-Blogify-Next.js
+git clone https://github.com/kamrul2006/k-edunest.git
+cd k-edunest
 ````
 
-### Install Frontend Dependencies
+### 2. Install dependencies
 
 ```bash
 npm install
 ```
 
-### Setup Environment Variables
+### 3. Set up environment variables
 
-Create a `.env.local` file in root:
+Create a `.env.local` file and add:
 
 ```env
-NEXTAUTH_SECRET=your-nextauth-secret
-NEXTAUTH_URL=http://localhost:3000
-MONGO_URI=your-mongodb-uri
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
-GITHUB_ID=your-github-id
-GITHUB_SECRET=your-github-secret
+NEXT_PUBLIC_FIREBASE_API_KEY=your_key
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_domain
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_bucket
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender
+NEXT_PUBLIC_FIREBASE_APP_ID=your_app
 ```
 
-> Note: You need to configure your providers (Google, GitHub) from their respective developer consoles.
-
-### Run Frontend Locally
+### 4. Run the app
 
 ```bash
 npm run dev
 ```
 
-The app will run at: [http://localhost:3000](http://localhost:3000)
+---
+
+## 🔐 Authentication
+
+* Auth handled via **Firebase**.
+* Supports GitHub login.
+* Tracks `emailVerified`.
+* Displays login/logout buttons conditionally.
+* Profile name & photo shown in navbar.
 
 ---
 
-## 🖥 Backend Server (Express.js)
+## 📁 Folder Structure (Key Parts)
 
-### Backend Repo (Optional)
+```
+├── app/
+│   ├── layout.js
+│   ├── page.js
+│   └── admission/
+├── components/
+│   ├── Navbar.jsx
+│   ├── Footer.jsx
+│   └── ...
+├── pages/
+│   └── api/ (optional backend if hybrid)
+├── public/
+│   ├── logo.png
+│   ├── banner-preview.png
+│   └── ...
+├── styles/
+├── utils/
+└── firebase/
+    └── firebase.config.js
+```
 
-If backend is in separate repo:
+---
+
+## 🤝 Contribution
+
+Contributions, issues, and feature requests are welcome!
 
 ```bash
-git clone https://github.com/your-backend-repo.git
-cd your-backend-repo
-npm install
-```
+# Fork the repo
+# Create your feature branch
+git checkout -b feature/awesome-feature
 
+# Commit your changes
+git commit -m "Added awesome feature"
 
-## 🚀 Deployment Guide
-
-### ✅ Frontend Deployment (Vercel)
-
-1. Go to [Vercel](https://vercel.com/)
-2. Import your GitHub repository
-3. Add environment variables under **Project Settings → Environment Variables**
-4. Deploy 🚀
-
----
-
-## 📝 Folder Structure
-
-```
-/app
-  /api
-  /components
-  /dashboard
-  /posts
-  /create
-  ...
-/public
-/utils
-README.md
-package.json
-next.config.js
+# Push and open a PR
+git push origin feature/awesome-feature
 ```
 
 ---
 
-## 🔐 Environment Variables Summary
+## 📄 License
 
-| Variable               | Description                |
-| ---------------------- | -------------------------- |
-| `NEXTAUTH_SECRET`      | Secret for NextAuth        |
-| `NEXTAUTH_URL`         | Your deployment URL        |
-| `MONGO_URI`            | MongoDB connection string  |
-| `GITHUB_ID`            | GitHub OAuth Client ID     |
-| `GITHUB_SECRET`        | GitHub OAuth Client Secret |
-| `GOOGLE_CLIENT_ID`     | Google OAuth Client ID     |
-| `GOOGLE_CLIENT_SECRET` | Google OAuth Client Secret |
+This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-## ❤️ Author
+## 📬 Contact
 
 **Kamrul Islam Apurba**
-[GitHub](https://github.com/kamrul2006)
+📧 Email: [kamrul@example.com](mailto:kamrul@example.com)
+🌐 GitHub: [@K-WEB TEc](https://github.com/K-WEB-TEc)
+
+---
+
+> Made with Next.js & 💙 by Apurba.
+
+
