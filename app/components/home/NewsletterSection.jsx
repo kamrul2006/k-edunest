@@ -7,7 +7,7 @@ export const NewsletterSection = () => {
     return (
         <section className="bg-black text-white py-20 px-6 relative overflow-hidden max-w-5xl mx-auto my-10 rounded-3xl">
             <div className="max-w-5xl mx-auto text-center space-y-10">
-                <Slide direction="up" triggerOnce>
+                <Slide direction="up"  >
                     <div className="space-y-4">
                         <h2 className="text-4xl lg:text-5xl font-bold text-blue-200">
                             Subscribe to Our Newsletter
@@ -18,7 +18,7 @@ export const NewsletterSection = () => {
                     </div>
                 </Slide>
 
-                <Slide direction="up" delay={100} triggerOnce>
+                <Slide direction="up" delay={100}  >
                     <form
                         onSubmit={(e) => e.preventDefault()}
                         className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-xl mx-auto"

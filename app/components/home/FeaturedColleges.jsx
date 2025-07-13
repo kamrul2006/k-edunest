@@ -11,7 +11,7 @@ export default function FeaturedColleges() {
     useEffect(() => {
         const fetchColleges = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/college');
+                const res = await axios.get('https://k-edunest-server.vercel.app/college');
                 setColleges(res.data);
             } catch (error) {
                 console.error('Error fetching colleges:', error);

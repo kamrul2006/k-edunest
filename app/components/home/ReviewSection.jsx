@@ -20,7 +20,7 @@ const ReviewSection = () => {
     useEffect(() => {
         const fetchReviews = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/review');
+                const res = await axios.get('https://k-edunest-server.vercel.app/review');
                 setReviews(res.data || []);
             } catch (err) {
                 console.error('Failed to load reviews:', err);
@@ -45,7 +45,7 @@ const ReviewSection = () => {
 
         try {
             // ✅ Send review to backend
-            await axios.post('http://localhost:5000/review', {
+            await axios.post('https://k-edunest-server.vercel.app/review', {
                 name,
                 college,
                 reviewText: review,
@@ -53,7 +53,7 @@ const ReviewSection = () => {
             });
 
             // ✅ Refetch reviews after submission
-            const res = await axios.get('http://localhost:5000/review');
+            const res = await axios.get('https://k-edunest-server.vercel.app/review');
             setReviews(res.data || []);
 
             // ✅ Reset form
@@ -69,7 +69,7 @@ const ReviewSection = () => {
             <div className="max-w-6xl mx-auto px-4">
 
                 {/* Add Review Form */}
-                <Fade direction="up" triggerOnce>
+                <Fade direction="up"  >
                     <div className="bg-white p-8 rounded-2xl shadow-xl border border-blue-100 mb-16">
                         <h3 className="text-3xl font-bold text-blue-700 text-center mb-2"> Share Your Experience</h3>
                         <p className="text-center text-gray-500 mb-6">Help others by writing about your college journey.</p>
@@ -142,7 +142,7 @@ const ReviewSection = () => {
                 </Fade>
 
                 {/* Heading */}
-                <Fade cascade damping={0.1} triggerOnce>
+                <Fade cascade damping={0.1}  >
                     <h2 className="text-4xl font-extrabold text-center text-blue-800 mb-4">
                         Student Reviews & Feedback
                     </h2>

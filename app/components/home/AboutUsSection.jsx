@@ -11,7 +11,7 @@ export const AboutUsSection = () => {
             <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 px-6 gap-10 items-center ">
 
                 {/* ---------- Text Section ---------- */}
-                <Slide direction="left" triggerOnce>
+                <Slide direction="left"  >
                     <div className="space-y-6">
                         <p className="text-sm uppercase tracking-wide text-blue-300 font-semibold">
                             About K-Edunest
@@ -40,7 +40,7 @@ export const AboutUsSection = () => {
                 </Slide>
 
                 {/* ---------- Founder Info ---------- */}
-                <Slide direction="right" triggerOnce>
+                <Slide direction="right"  >
                     <div className="space-y-6">
                         <p className="text-lg text-blue-100 text-justify leading-relaxed px-2 lg:px-0">
                             “K-Edunest was born from a passion to educate and elevate. We believe every learner deserves access to meaningful,

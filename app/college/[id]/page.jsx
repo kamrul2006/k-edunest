@@ -15,7 +15,7 @@ export default function CollegeDetails() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/college/${id}`)
+        axios.get(`https://k-edunest-server.vercel.app/college/${id}`)
             .then(res => {
                 setCollege(res.data);
                 setLoading(false);
@@ -38,7 +38,7 @@ export default function CollegeDetails() {
         <div className='bg-white'>
             <Navbar />
             <div className="max-w-6xl mx-auto px-4 py-16 text-black bg-white">
-                <Fade triggerOnce>
+                <Fade  >
                     <img
                         src={college.image}
                         alt={college.name}
@@ -46,7 +46,7 @@ export default function CollegeDetails() {
                     />
                 </Fade>
 
-                <Slide direction="up" triggerOnce>
+                <Slide direction="up"  >
                     <h1 className="text-4xl font-bold text-blue-800 flex items-center gap-3 mb-2">
                         <FaUniversity className="text-blue-600" /> {college.name}
                     </h1>

@@ -9,6 +9,7 @@ import {
     GoogleAuthProvider,
     signInWithPopup,
 } from "firebase/auth";
+import { FaGoogle, FaArrowLeft } from "react-icons/fa";
 
 export default function Register() {
     const router = useRouter();
@@ -21,7 +22,6 @@ export default function Register() {
     });
     const [error, setError] = useState("");
 
-    // Email/password registration handler
     const handleRegister = async (e) => {
         e.preventDefault();
         setError("");
@@ -34,7 +34,6 @@ export default function Register() {
                 photoURL: form.photoURL,
             });
 
-            // Send user to backend
             const newUser = {
                 name: `${form.firstName} ${form.lastName}`,
                 email: form.email,
@@ -42,7 +41,7 @@ export default function Register() {
                 provider: "email",
             };
 
-            await fetch("http://localhost:5000/Users", {
+            await fetch("https://k-edunest-server.vercel.app/Users", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newUser),
@@ -54,7 +53,6 @@ export default function Register() {
         }
     };
 
-    // Google login handler
     const handleGoogleLogin = async () => {
         setError("");
         const provider = new GoogleAuthProvider();
@@ -63,8 +61,6 @@ export default function Register() {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
 
-            console.log(user)
-
             const newUser = {
                 name: user.displayName,
                 email: user.email,
@@ -72,7 +68,7 @@ export default function Register() {
                 provider: "google",
             };
 
-            await fetch("http://localhost:5000/Users", {
+            await fetch("https://k-edunest-server.vercel.app/Users", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newUser),
@@ -85,17 +81,26 @@ export default function Register() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-cyan-900 via-blue-900 to-indigo-900 px-4 py-12">
-            <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8 space-y-6">
-                <div className="text-center">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-indigo-900 via-purple-900 to-cyan-900 px-4 py-16">
+            <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 space-y-6 relative">
+                {/* Back to Home */}
+                <button
+                    onClick={() => router.push('/')}
+                    className="absolute -top-4 -left-4 bg-blue-700 text-white px-3 py-2 rounded-full shadow-lg flex items-center gap-2 hover:bg-blue-800"
+                    title="Back to Home"
+                >
+                    <FaArrowLeft /> Home
+                </button>
+
+                <div className="text-center mt-6">
                     <h1 className="text-3xl font-extrabold text-blue-900">Create Account</h1>
                     <p className="mt-2 text-sm text-gray-500">
-                        Join K-Edunest to discover and connect with top colleges.
+                        Join <span className="font-semibold text-blue-600">K-Edunest</span> and explore top colleges.
                     </p>
                 </div>
 
                 {error && (
-                    <div className="bg-red-100 text-red-600 px-4 py-2 rounded text-sm shadow-sm">
+                    <div className="bg-red-100 border border-red-400 text-red-600 px-4 py-2 rounded text-sm shadow-sm">
                         {error}
                     </div>
                 )}
@@ -105,7 +110,7 @@ export default function Register() {
                         <input
                             type="text"
                             placeholder="First Name"
-                            className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
+                            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
                             value={form.firstName}
                             onChange={(e) => setForm({ ...form, firstName: e.target.value })}
                             required
@@ -113,7 +118,7 @@ export default function Register() {
                         <input
                             type="text"
                             placeholder="Last Name"
-                            className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
+                            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
                             value={form.lastName}
                             onChange={(e) => setForm({ ...form, lastName: e.target.value })}
                             required
@@ -148,7 +153,7 @@ export default function Register() {
 
                     <button
                         type="submit"
-                        className="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg transition duration-300 shadow-md"
+                        className="w-full bg-gradient-to-r from-blue-700 to-cyan-600 hover:from-blue-800 hover:to-cyan-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 shadow-lg"
                     >
                         Register
                     </button>
@@ -156,16 +161,12 @@ export default function Register() {
 
                 {/* Google Login */}
                 <div className="text-center">
-                    <p className="text-gray-500 my-2">or</p>
+                    <p className="text-gray-500 my-3">or</p>
                     <button
                         onClick={handleGoogleLogin}
                         className="w-full flex items-center justify-center gap-3 border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-200"
                     >
-                        <img
-                            src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-                            alt="Google"
-                            className="w-5 h-5"
-                        />
+                        <FaGoogle className="text-red-500" />
                         <span>Sign in with Google</span>
                     </button>
                 </div>

@@ -35,7 +35,7 @@ export default function AdmissionPage() {
 
                 // Check if user already applied
                 try {
-                    const res = await axios.get(`http://localhost:5000/admissions`);
+                    const res = await axios.get(`https://k-edunest-server.vercel.app/admissions`);
                     const userAdmission = res.data.find(item => item.email === user.email);
                     console.log(userAdmission)
 
@@ -56,7 +56,7 @@ export default function AdmissionPage() {
 
     // Get college list
     useEffect(() => {
-        axios.get('http://localhost:5000/college')
+        axios.get('https://k-edunest-server.vercel.app/college')
             .then(res => setColleges(res.data))
             .catch(err => console.error('Error fetching colleges:', err));
     }, []);
@@ -69,7 +69,7 @@ export default function AdmissionPage() {
     const handleSubmit = async e => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/admissions', {
+            await axios.post('https://k-edunest-server.vercel.app/admissions', {
                 collegeId: selectedCollege,
                 ...formData,
             });

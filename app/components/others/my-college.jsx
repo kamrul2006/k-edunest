@@ -19,8 +19,8 @@ export default function MyCollege() {
 
                 try {
                     const [admissionRes, reviewRes] = await Promise.all([
-                        axios.get('http://localhost:5000/admissions'),
-                        axios.get('http://localhost:5000/review')
+                        axios.get('https://k-edunest-server.vercel.app/admissions'),
+                        axios.get('https://k-edunest-server.vercel.app/review')
                     ]);
 
                     const userAdmission = admissionRes.data.find(item => item.email === user.email);
@@ -38,7 +38,7 @@ export default function MyCollege() {
     const handleSubmitReview = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/review', {
+            await axios.post('https://k-edunest-server.vercel.app/review', {
                 userEmail,
                 collegeId: admissionInfo.collegeId,
                 reviewText,
@@ -48,7 +48,7 @@ export default function MyCollege() {
             setReviewText('');
             setRating(5);
 
-            const reviewRes = await axios.get('http://localhost:5000/review');
+            const reviewRes = await axios.get('https://k-edunest-server.vercel.app/review');
             setAllReviews(reviewRes.data || []);
         } catch (err) {
             console.error('Review submission failed:', err);

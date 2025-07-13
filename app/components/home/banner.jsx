@@ -20,7 +20,7 @@ export default function HeroSection() {
 
             {/* Content */}
             <div className="relative z-10 max-w-4xl text-center space-y-6 px-4">
-                <Slide direction="up" cascade damping={0.2} triggerOnce>
+                <Slide direction="up" cascade damping={0.2}  >
                     <h1 className="text-4xl md:text-6xl font-extrabold leading-tight tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500 animate-text-shine">
                         Discover & Book Top Colleges Easily
                     </h1>
@@ -29,7 +29,7 @@ export default function HeroSection() {
                     </p>
                 </Slide>
 
-                <Fade cascade delay={300} triggerOnce>
+                <Fade cascade delay={300}  >
 
                     <div className="flex flex-col sm:flex-row gap-6 justify-center mt-6">
                         <Link href={'/colleges'} className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 px-8 rounded-full shadow-xl transition-all duration-300 ring-2 ring-blue-400 hover:ring-cyan-300">

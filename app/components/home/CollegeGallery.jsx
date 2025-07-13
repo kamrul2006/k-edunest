@@ -11,7 +11,7 @@ const CollegeGallery = () => {
     useEffect(() => {
         const fetchColleges = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/college');
+                const res = await axios.get('https://k-edunest-server.vercel.app/college');
                 setColleges(res.data); // Full college objects
             } catch (error) {
                 console.error('Failed to fetch colleges:', error);
@@ -26,7 +26,7 @@ const CollegeGallery = () => {
     return (
         <section className="py-20 bg-gray-100 lg:mt-10">
             <div className="max-w-7xl mx-auto px-4">
-                <Fade cascade duration={500} triggerOnce>
+                <Fade cascade duration={500}  >
                     <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4">
                         College Image Gallery
                     </h2>
@@ -40,7 +40,7 @@ const CollegeGallery = () => {
                 ) : colleges.length ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                         {colleges.map((college, idx) => (
-                            <Zoom key={college._id || idx} triggerOnce>
+                            <Zoom key={college._id || idx}  >
                                 <div className="relative group overflow-hidden rounded-xl shadow-lg cursor-pointer transform transition-transform duration-300 hover:scale-105">
                                     <img
                                         src={college.image}

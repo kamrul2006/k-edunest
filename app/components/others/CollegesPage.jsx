@@ -11,7 +11,7 @@ export default function CollegesPage() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/college')
+        axios.get('https://k-edunest-server.vercel.app/college')
             .then(res => {
                 setColleges(res.data);
                 setLoading(false);
@@ -37,7 +37,7 @@ export default function CollegesPage() {
             </h1>
             <div className="grid gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {colleges.map(college => (
-                    <Zoom key={college.id} triggerOnce>
+                    <Zoom key={college.id}  >
                         <div className="bg-white/20 backdrop-blur-md border border-white/10 shadow-2xl rounded-xl overflow-hidden hover:shadow-blue-500/40 transition duration-500 transform hover:-translate-y-2">
                             <img
                                 src={college.image}
