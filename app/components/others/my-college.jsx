@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/app/firebase/firebase.config';
+import { useRouter } from 'next/navigation';
 
 export default function MyCollege() {
     const [admissionInfo, setAdmissionInfo] = useState(null);
@@ -11,6 +12,8 @@ export default function MyCollege() {
     const [success, setSuccess] = useState(false);
     const [userEmail, setUserEmail] = useState('');
     const [allReviews, setAllReviews] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const router = useRouter();
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -30,6 +33,8 @@ export default function MyCollege() {
                     console.error('Error fetching data:', err);
                 }
             }
+
+            setIsLoading(false);
         });
 
         return () => unsubscribe();
@@ -59,13 +64,40 @@ export default function MyCollege() {
         ? allReviews.filter(review => review.collegeId === admissionInfo.collegeId)
         : [];
 
-    if (!admissionInfo) return (
-        <div className="text-center mt-20 min-h-screen flex items-center justify-center text-xl text-gray-600">
-            {userEmail
-                ? 'No admission info found for your account.'
-                : 'Loading your college info...'}
-        </div>
-    );
+    // Show loading
+    if (isLoading) return <div className="text-center py-20 text-xl text-gray-600">Loading your college info...</div>;
+
+    // Show login prompt if not logged in
+    if (!userEmail) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-300 px-4">
+                <div className="bg-white rounded-xl shadow-xl p-10 max-w-md text-center">
+                    <h2 className="text-3xl font-bold text-blue-700 mb-4">You're not logged in</h2>
+                    <p className="text-gray-600 mb-6">
+                        Please log in to view your college details and submit a review.
+                    </p>
+                    <button
+                        onClick={() => router.push('/login')}
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-md transition duration-300"
+                    >
+                        Login Now
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    // Show message if logged in but no admission info
+    if (!admissionInfo) {
+        return (
+            <div className="min-h-screen flex items-center justify-center text-center px-4">
+                <div className="bg-white p-10 rounded-lg shadow-md max-w-lg">
+                    <h2 className="text-2xl font-semibold text-red-600 mb-2">No Admission Found</h2>
+                    <p className="text-gray-600">We couldn't find your admission information in our records.</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="max-w-5xl mx-auto px-6 py-12 space-y-12">

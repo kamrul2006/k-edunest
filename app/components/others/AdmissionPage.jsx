@@ -2,10 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/app/firebase/firebase.config';
 
 export default function AdmissionPage() {
+    const router = useRouter();
+    const [user, setUser] = useState(null);
     const [colleges, setColleges] = useState([]);
     const [selectedCollege, setSelectedCollege] = useState('');
     const [formData, setFormData] = useState({
@@ -19,26 +22,24 @@ export default function AdmissionPage() {
     });
     const [hasApplied, setHasApplied] = useState(false);
 
-    // Get logged-in user
+    // Get logged-in user and check admission
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
+                setUser(user);
+
                 const userName = user.displayName || '';
                 const userEmail = user.email || '';
 
-                // Fill user info in form
                 setFormData(prev => ({
                     ...prev,
                     candidateName: userName,
                     email: userEmail,
                 }));
 
-                // Check if user already applied
                 try {
-                    const res = await axios.get(`https://k-edunest-server.vercel.app/admissions`);
+                    const res = await axios.get('https://k-edunest-server.vercel.app/admissions');
                     const userAdmission = res.data.find(item => item.email === user.email);
-                    console.log(userAdmission)
-
                     if (userAdmission) {
                         setHasApplied(true);
                     }
@@ -50,9 +51,6 @@ export default function AdmissionPage() {
 
         return () => unsubscribe();
     }, []);
-
-    console.log(hasApplied)
-
 
     // Get college list
     useEffect(() => {
@@ -74,16 +72,36 @@ export default function AdmissionPage() {
                 ...formData,
             });
             alert('Admission submitted successfully!');
-            setHasApplied(true); // prevent further submissions
+            setHasApplied(true);
         } catch (error) {
             console.error('Submission failed:', error);
             alert('Failed to submit admission.');
         }
     };
 
+    // 🔒 Show login card if user is not authenticated
+    if (!user) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-900 via-blue-900 to-cyan-900 px-4">
+                <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-10 text-center">
+                    <h1 className="text-3xl font-bold text-gray-800 mb-4">You're not logged in</h1>
+                    <p className="text-gray-600 mb-6">
+                        To access the admission form and submit your details, please sign in to your account.
+                    </p>
+                    <button
+                        onClick={() => router.push('/login')}
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg transition duration-300"
+                    >
+                        Go to Login
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
     return (
-        <div className='bg-white min-h-screen'>
-            <div className="max-w-3xl mx-auto py-12 md:py-28 px-6 min-h-screen bg-white">
+        <div className="bg-white min-h-screen">
+            <div className="max-w-3xl mx-auto py-12 md:py-28 px-6">
                 <h2 className="text-3xl font-bold mb-6 text-center text-blue-700">Admission Form</h2>
 
                 {hasApplied ? (
@@ -110,7 +128,7 @@ export default function AdmissionPage() {
                             <form onSubmit={handleSubmit} className="space-y-4">
                                 <input name="candidateName" placeholder="Candidate Name" required className="w-full border px-4 py-2 rounded" onChange={handleChange} value={formData.candidateName} />
                                 <input name="subject" placeholder="Subject" required className="w-full border px-4 py-2 rounded" onChange={handleChange} value={formData.subject} />
-                                <input name="email" type="email" placeholder="Email" required className="w-full border px-4 py-2 rounded" onChange={handleChange} value={formData.email} readOnly />
+                                <input name="email" type="email" placeholder="Email" required readOnly className="w-full border px-4 py-2 rounded bg-gray-100 cursor-not-allowed" value={formData.email} />
                                 <input name="phone" placeholder="Phone Number" required className="w-full border px-4 py-2 rounded" onChange={handleChange} value={formData.phone} />
                                 <input name="address" placeholder="Address" required className="w-full border px-4 py-2 rounded" onChange={handleChange} value={formData.address} />
                                 <input name="dob" type="date" placeholder="Date of Birth" required className="w-full border px-4 py-2 rounded" onChange={handleChange} value={formData.dob} />

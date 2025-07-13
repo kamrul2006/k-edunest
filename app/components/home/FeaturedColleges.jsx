@@ -26,7 +26,7 @@ export default function FeaturedColleges() {
     return (
         <section className="py-20 bg-gradient-to-br from-blue-50 to-cyan-100 px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold text-center text-blue-900 mb-12">
-                🌟 Featured Colleges
+                Featured Colleges
             </h2>
 
             {loading ? (
