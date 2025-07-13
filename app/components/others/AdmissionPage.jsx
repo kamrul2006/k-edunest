@@ -127,11 +127,23 @@ export default function AdmissionPage() {
                         {selectedCollege && (
                             <form onSubmit={handleSubmit} className="space-y-4">
                                 <input name="candidateName" placeholder="Candidate Name" required className="w-full border px-4 py-2 rounded" onChange={handleChange} value={formData.candidateName} />
+
+
                                 <input name="subject" placeholder="Subject" required className="w-full border px-4 py-2 rounded" onChange={handleChange} value={formData.subject} />
-                                <input name="email" type="email" placeholder="Email" required readOnly className="w-full border px-4 py-2 rounded bg-gray-100 cursor-not-allowed" value={formData.email} />
+
+
+                                <input name="email" type="email" placeholder="Email" required className="w-full border px-4 py-2 rounded bg-gray-100" value={formData.email} />
+
+
                                 <input name="phone" placeholder="Phone Number" required className="w-full border px-4 py-2 rounded" onChange={handleChange} value={formData.phone} />
+
+
                                 <input name="address" placeholder="Address" required className="w-full border px-4 py-2 rounded" onChange={handleChange} value={formData.address} />
+
+
                                 <input name="dob" type="date" placeholder="Date of Birth" required className="w-full border px-4 py-2 rounded" onChange={handleChange} value={formData.dob} />
+
+
                                 <input name="image" placeholder="Image URL" required className="w-full border px-4 py-2 rounded" onChange={handleChange} value={formData.image} />
 
                                 <button type="submit" className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded font-semibold">
