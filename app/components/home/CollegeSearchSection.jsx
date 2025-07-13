@@ -1,39 +1,40 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
-
-const collegeData = [
-    {
-        id: 1,
-        name: 'Greenfield University',
-        image: '/llgg.png',
-        description: 'A top-tier institution for science and technology.',
-    },
-    {
-        id: 2,
-        name: 'Blue Ocean College',
-        image: '/llgg.png',
-        description: 'Renowned for marine biology and environmental science.',
-    },
-    {
-        id: 3,
-        name: 'TechNova Institute',
-        image: '/llgg.png',
-        description: 'Leading the way in engineering and innovation.',
-    },
-];
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 export default function CollegeSearchSection() {
     const [searchTerm, setSearchTerm] = useState('');
+    const [colleges, setColleges] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const router = useRouter();
 
-    const filteredColleges = collegeData.filter((college) =>
-        college.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    useEffect(() => {
+        const fetchColleges = async () => {
+            try {
+                const res = await axios.get('http://localhost:5000/college');
+                setColleges(res.data);
+            } catch (error) {
+                console.error('Failed to fetch colleges:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchColleges();
+    }, []);
+
+    const filteredColleges = searchTerm
+        ? colleges.filter((college) =>
+            college.name.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        : colleges.slice(0, 3); // Show only first 3 if no search
 
     return (
         <section className="pt-32 px-4 max-w-7xl mx-auto text-white">
             {/* Search Input */}
-            <div className="mb-10 relative w-full md:w-2/3 lg:w-1/2 mx-auto ">
+            <div className="mb-10 relative w-full md:w-2/3 lg:w-1/2 mx-auto">
                 <input
                     type="text"
                     placeholder="Search for a college..."
@@ -45,34 +46,44 @@ export default function CollegeSearchSection() {
             </div>
 
             {/* College Cards */}
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                {filteredColleges.length ? (
-                    filteredColleges.map((college) => (
-                        <div
-                            key={college.id}
-                            className="bg-gradient-to-br from-white via-gray-50 to-gray-200 rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
-                        >
-                            <img
-                                src={college.image}
-                                alt={college.name}
-                                className="w-full h-48 object-cover border-b-4 border-cyan-500"
-                            />
-                            <div className="p-6">
-                                <h3 className="text-2xl font-bold text-blue-800 mb-3 tracking-wide">
-                                    {college.name}
-                                </h3>
-                                <p className="text-gray-700 text-sm leading-relaxed">
-                                    {college.description}
-                                </p>
+            {loading ? (
+                <p className="text-center text-lg text-gray-300">Loading colleges...</p>
+            ) : (
+                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    {filteredColleges.length ? (
+                        filteredColleges.map((college) => (
+                            <div
+                                key={college._id}
+                                className="bg-gradient-to-br from-white via-gray-50 to-gray-200 rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
+                            >
+                                <img
+                                    src={college.image}
+                                    alt={college.name}
+                                    className="w-full h-48 object-cover border-b-4 border-cyan-500"
+                                />
+                                <div className="p-6">
+                                    <h3 className="text-2xl font-bold text-blue-800 mb-3 tracking-wide">
+                                        {college.name}
+                                    </h3>
+                                    <p className="text-gray-700 text-sm leading-relaxed mb-4">
+                                        {college.description}
+                                    </p>
+                                    <button
+                                        onClick={() => router.push(`/college/${college._id}`)}
+                                        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+                                    >
+                                        Details
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    ))
-                ) : (
-                    <p className="text-center col-span-full text-gray-300 text-lg">
-                        No colleges found.
-                    </p>
-                )}
-            </div>
+                        ))
+                    ) : (
+                        <p className="text-center col-span-full text-gray-300 text-lg">
+                            No colleges found.
+                        </p>
+                    )}
+                </div>
+            )}
         </section>
     );
 }

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Fade, Slide } from 'react-awesome-reveal';
 import { FaStar } from 'react-icons/fa';
+import Marquee from "react-fast-marquee";
 
 const ReviewSection = () => {
     const [reviews, setReviews] = useState([]);
@@ -70,7 +71,7 @@ const ReviewSection = () => {
                 {/* Add Review Form */}
                 <Fade direction="up" triggerOnce>
                     <div className="bg-white p-8 rounded-2xl shadow-xl border border-blue-100 mb-16">
-                        <h3 className="text-3xl font-bold text-blue-700 text-center mb-2">📝 Share Your Experience</h3>
+                        <h3 className="text-3xl font-bold text-blue-700 text-center mb-2"> Share Your Experience</h3>
                         <p className="text-center text-gray-500 mb-6">Help others by writing about your college journey.</p>
 
                         <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6">
@@ -143,7 +144,7 @@ const ReviewSection = () => {
                 {/* Heading */}
                 <Fade cascade damping={0.1} triggerOnce>
                     <h2 className="text-4xl font-extrabold text-center text-blue-800 mb-4">
-                        💬 Student Reviews & Feedback
+                        Student Reviews & Feedback
                     </h2>
                     <p className="text-center text-gray-600 mb-12 text-lg">
                         See what others say about their college life.
@@ -151,12 +152,12 @@ const ReviewSection = () => {
                 </Fade>
 
                 {/* Reviews */}
-                <Slide direction="up" triggerOnce>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <Marquee className=''>
+                    <div className="flex items-center justify-center gap-8 mx-4">
                         {reviews.map((review, index) => (
                             <div
                                 key={index}
-                                className="bg-white border border-blue-100 p-6 rounded-2xl shadow hover:shadow-lg transition-shadow duration-300"
+                                className="bg-white border border-blue-100 p-6 rounded-2xl shadow hover:shadow-lg transition-shadow duration-300 h-[140px] w-[270px]"
                             >
                                 <h3 className="text-xl font-semibold text-gray-800">{review.name || review.userEmail}</h3>
                                 <p className="text-sm text-gray-500 mb-2 italic">{review.college}</p>
@@ -170,7 +171,7 @@ const ReviewSection = () => {
                             </div>
                         ))}
                     </div>
-                </Slide>
+                </Marquee>
             </div>
         </section>
     );

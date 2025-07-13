@@ -5,14 +5,14 @@ import { Slide } from 'react-awesome-reveal';
 
 export const NewsletterSection = () => {
     return (
-        <section className="bg-blue-800 text-white py-20 px-6 relative overflow-hidden max-w-5xl mx-auto my-10 rounded-3xl">
+        <section className="bg-black text-white py-20 px-6 relative overflow-hidden max-w-5xl mx-auto my-10 rounded-3xl">
             <div className="max-w-5xl mx-auto text-center space-y-10">
                 <Slide direction="up" triggerOnce>
                     <div className="space-y-4">
-                        <h2 className="text-4xl lg:text-5xl font-bold text-pink-200">
+                        <h2 className="text-4xl lg:text-5xl font-bold text-blue-200">
                             Subscribe to Our Newsletter
                         </h2>
-                        <p className="text-pink-100 text-lg max-w-2xl mx-auto leading-relaxed">
+                        <p className="text-blue-100 text-lg max-w-2xl mx-auto leading-relaxed">
                             Stay informed with the latest educational insights, courses, and K-Edunest updates—delivered straight to your inbox.
                         </p>
                     </div>
@@ -27,7 +27,7 @@ export const NewsletterSection = () => {
                             type="email"
                             placeholder="Enter your email"
                             required
-                            className="px-5 py-3 w-full sm:w-2/3 rounded-xl border border-blue-200 text-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-pink-300"
+                            className="px-5 py-3 w-full sm:w-2/3 rounded-xl border border-blue-200 text-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-blue-300"
                         />
                         <button
                             type="submit"

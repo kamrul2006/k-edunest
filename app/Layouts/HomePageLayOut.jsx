@@ -9,6 +9,7 @@ import { AboutUsSection } from '../components/home/AboutUsSection'
 import Navbar from '../components/Fixed/NavBar'
 import Footer from '../components/Fixed/Footer'
 import { NewsletterSection } from '../components/home/NewsletterSection'
+import TopAchievements from '../components/home/TopAchievements'
 
 export const HomePageLayout = () => {
     return (
@@ -22,6 +23,8 @@ export const HomePageLayout = () => {
             <AboutUsSection />
 
             <CollegeGallery />
+
+            <TopAchievements />
 
             <FeaturedColleges />
 
