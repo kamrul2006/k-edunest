@@ -26,7 +26,7 @@ export default function MyCollege() {
                         axios.get('https://k-edunest-server.vercel.app/review')
                     ]);
 
-                    const userAdmission = admissionRes.data.find(item => item.email === user.email);
+                    const userAdmission = admissionRes.data.find(item => item.candidateName === user.displayName);
                     setAdmissionInfo(userAdmission || null);
                     setAllReviews(reviewRes.data || []);
                 } catch (err) {
