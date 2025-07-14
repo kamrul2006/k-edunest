@@ -11,6 +11,9 @@ export default function AdmissionPage() {
     const [user, setUser] = useState(null);
     const [colleges, setColleges] = useState([]);
     const [selectedCollege, setSelectedCollege] = useState('');
+    const [hasApplied, setHasApplied] = useState(false);
+    const [loading, setLoading] = useState(true);
+
     const [formData, setFormData] = useState({
         candidateName: '',
         subject: '',
@@ -18,28 +21,25 @@ export default function AdmissionPage() {
         phone: '',
         address: '',
         dob: '',
-        image: ''
+        image: '',
     });
-    const [hasApplied, setHasApplied] = useState(false);
 
-    // Get logged-in user and check admission
+    // 🔍 Get logged-in user and check if already applied
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            setLoading(true);
             if (user) {
                 setUser(user);
 
-                const userName = user.displayName || '';
-                const userEmail = user.email || '';
-
                 setFormData(prev => ({
                     ...prev,
-                    candidateName: userName,
-                    email: userEmail,
+                    candidateName: user.displayName || '',
+                    email: user.email || '',
                 }));
 
                 try {
                     const res = await axios.get('https://k-edunest-server.vercel.app/admissions');
-                    const userAdmission = res.data.find(item => item.email === user.email);
+                    const userAdmission = res.data.find(item => item.candidateName === user.displayName);
                     if (userAdmission) {
                         setHasApplied(true);
                     }
@@ -47,14 +47,16 @@ export default function AdmissionPage() {
                     console.error('Error checking admission:', err);
                 }
             }
+            setLoading(false);
         });
 
         return () => unsubscribe();
     }, []);
 
-    // Get college list
+    // 🎓 Fetch college list
     useEffect(() => {
-        axios.get('https://k-edunest-server.vercel.app/college')
+        axios
+            .get('https://k-edunest-server.vercel.app/college')
             .then(res => setColleges(res.data))
             .catch(err => console.error('Error fetching colleges:', err));
     }, []);
@@ -71,16 +73,16 @@ export default function AdmissionPage() {
                 collegeId: selectedCollege,
                 ...formData,
             });
-            alert('Admission submitted successfully!');
+            alert('✅ Admission submitted successfully!');
             setHasApplied(true);
         } catch (error) {
-            console.error('Submission failed:', error);
+            console.error('❌ Submission failed:', error);
             alert('Failed to submit admission.');
         }
     };
 
-    // 🔒 Show login card if user is not authenticated
-    if (!user) {
+    // 🔐 Show login screen if not authenticated
+    if (!user && !loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-900 via-blue-900 to-cyan-900 px-4">
                 <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-10 text-center">
@@ -95,6 +97,14 @@ export default function AdmissionPage() {
                         Go to Login
                     </button>
                 </div>
+            </div>
+        );
+    }
+
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center min-h-screen text-blue-600 text-xl font-semibold">
+                Loading...
             </div>
         );
     }
@@ -116,37 +126,88 @@ export default function AdmissionPage() {
                                 className="w-full border border-gray-300 rounded px-4 py-2"
                                 value={selectedCollege}
                                 onChange={e => setSelectedCollege(e.target.value)}
+                                required
                             >
                                 <option value="">-- Select a College --</option>
                                 {colleges.map(college => (
-                                    <option key={college._id} value={college._id}>{college.name}</option>
+                                    <option key={college._id} value={college._id}>
+                                        {college.name}
+                                    </option>
                                 ))}
                             </select>
                         </div>
 
                         {selectedCollege && (
                             <form onSubmit={handleSubmit} className="space-y-4">
-                                <input name="candidateName" placeholder="Candidate Name" required className="w-full border px-4 py-2 rounded" onChange={handleChange} value={formData.candidateName} />
+                                <input
+                                    name="candidateName"
+                                    placeholder="Candidate Name"
+                                    required
+                                    className="w-full border px-4 py-2 rounded"
+                                    onChange={handleChange}
+                                    value={formData.candidateName}
+                                />
 
+                                <input
+                                    name="subject"
+                                    placeholder="Subject"
+                                    required
+                                    className="w-full border px-4 py-2 rounded"
+                                    onChange={handleChange}
+                                    value={formData.subject}
+                                />
 
-                                <input name="subject" placeholder="Subject" required className="w-full border px-4 py-2 rounded" onChange={handleChange} value={formData.subject} />
+                                <input
+                                    name="email"
+                                    type="email"
+                                    placeholder="Email"
+                                    required
+                                    className="w-full border px-4 py-2 rounded"
+                                    onChange={handleChange}
+                                    value={formData.email}
+                                />
 
+                                <input
+                                    name="phone"
+                                    placeholder="Phone Number"
+                                    required
+                                    className="w-full border px-4 py-2 rounded"
+                                    onChange={handleChange}
+                                    value={formData.phone}
+                                />
 
-                                <input name="email" type="email" placeholder="Email" required className="w-full border px-4 py-2 rounded bg-gray-100" value={formData.email} />
+                                <input
+                                    name="address"
+                                    placeholder="Address"
+                                    required
+                                    className="w-full border px-4 py-2 rounded"
+                                    onChange={handleChange}
+                                    value={formData.address}
+                                />
 
+                                <input
+                                    name="dob"
+                                    type="date"
+                                    placeholder="Date of Birth"
+                                    required
+                                    className="w-full border px-4 py-2 rounded"
+                                    onChange={handleChange}
+                                    value={formData.dob}
+                                />
 
-                                <input name="phone" placeholder="Phone Number" required className="w-full border px-4 py-2 rounded" onChange={handleChange} value={formData.phone} />
+                                <input
+                                    name="image"
+                                    placeholder="Image URL"
+                                    required
+                                    className="w-full border px-4 py-2 rounded"
+                                    onChange={handleChange}
+                                    value={formData.image}
+                                />
 
-
-                                <input name="address" placeholder="Address" required className="w-full border px-4 py-2 rounded" onChange={handleChange} value={formData.address} />
-
-
-                                <input name="dob" type="date" placeholder="Date of Birth" required className="w-full border px-4 py-2 rounded" onChange={handleChange} value={formData.dob} />
-
-
-                                <input name="image" placeholder="Image URL" required className="w-full border px-4 py-2 rounded" onChange={handleChange} value={formData.image} />
-
-                                <button type="submit" className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded font-semibold">
+                                <button
+                                    type="submit"
+                                    className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded font-semibold"
+                                >
                                     Submit Admission
                                 </button>
                             </form>
