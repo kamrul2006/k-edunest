@@ -18,7 +18,7 @@ export default function MyCollege() {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
-                setUserEmail(user.email);
+                setUserEmail(user.displayName);
 
                 try {
                     const [admissionRes, reviewRes] = await Promise.all([
